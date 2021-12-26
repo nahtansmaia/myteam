@@ -1,0 +1,25 @@
+$dark: #000 !important;
+$light: #ffffff !important;
+$error: #D64B0B !important;
+
+$first:#EA2E4A !important;
+$second: #9E1025!important;
+
+$featured-lighter: #17AAEB !important;
+$featured-darker: #18759E !important;
+
+$transparent-dark: rgba(0,0,0, .7) !important;
+
+:root {
+  --dark: #{$dark};
+  --light: #{$light};
+  --error: #{$error};
+
+  --first: #{$first};
+  --second: #{$second};
+
+  --featured-lighter: #{$featured-lighter};
+  --featured-darker: #{$featured-darker};
+  
+  --transparent-dark: #{transparent-dark};
+}
