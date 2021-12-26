@@ -1,0 +1,71 @@
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+@import "variables";
+
+* {
+    font-family: "Comfortaa", "Poppins", sans-serif;
+}
+
+h1 {
+    color: var(--second) !important;
+    text-align: center !important;
+}
+
+.v-btn {
+    border-radius: 8px !important;
+    border-color: var(--second) !important;
+    color: var(--light) !important;
+    background-color: var(--second) !important;
+    text-decoration: none !important;
+    max-width: auto;
+    font-size-adjust: auto;
+    margin: 1px;
+    &:hover {
+        background-color: var(--first) !important;
+        color: var(--light) !important;
+        border-color: var(--first) !important;
+        text-decoration: none !important;
+        margin: 1px;
+    }
+}
+.v-icon {
+    border-radius: 8px !important;
+    border-color: var(--dark) !important;
+    color: var(--second) !important;
+    text-decoration: none !important;
+    background-color: transparent !important;
+    &:empty {
+        color: darkred !important;
+    }
+}
+.v-btn.btnPrincipal {
+    color: var(--light) !important;
+    border-color: var(--first) !important;
+    background-color: var(--first) !important;
+    text-decoration-color: none !important;
+    border-radius: 8px;
+    &:hover {
+        background-color: none !important;
+        color: var(--dark) !important;
+        border-color: var(--dark) !important;
+        margin-left: 5px;
+        border-radius: 8px;
+    }
+}
+.btnLink {
+    color: var(--first) !important;
+    background-color: transparent !important;
+    border-color: var(--second) !important;
+    border-radius: 8px !important;
+    text-decoration: none;
+    &:hover {
+        background-color: transparent !important;
+        color: var(--second) !important;
+        border-color: var(--second) !important;
+        text-decoration: none;
+    }
+}
+
+span {
+    color: white;
+}
