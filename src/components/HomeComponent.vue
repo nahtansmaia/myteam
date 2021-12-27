@@ -1,85 +1,64 @@
 <template>
   <v-container>
     <v-app-bar color="primary" dark dense app>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="30"
-        />
-        <h1>My Team</h1>
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn text @click="$router.push('/login')">
-        <span class="mr-2">Login</span>
+      <v-btn class="btnLink" depressed @click="drawer = true">
+        <v-icon>mdi-menu</v-icon>
       </v-btn>
+      <h1>MyTeam</h1>
     </v-app-bar>
     <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Bem vindo ao <span class="text-primary">MyTeam</span>
-        </h1>
-
-        <p class="subheading font-weight-regular">
-          Ajuda supervisores a administrar seus times de forma fácil e rápida.
-        </p>
-      </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-3">Links importantes</h2>
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
+      <dashboard-component />
     </v-row>
+    <v-navigation-drawer v-model="drawer" absolute temporary>
+      <v-list>
+        <v-list-item v-for="item in items" :key="item.title" link>
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title @click="navigation(item.route)">{{
+              item.title
+            }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn block class="btnPrincipal" @click="logout">
+            Logout
+          </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
   </v-container>
 </template>
 
 <script>
+import DashboardComponent from "../components/DashboardComponent.vue";
 export default {
   name: "HomeComponent",
+  components: {
+    DashboardComponent,
+  },
 
   data: () => ({
-    importantLinks: [
-      {
-        text: "Karoo",
-        href: "https://www.karoo.com.br/chat/#/classificacao?conta=136",
-      },
-      {
-        text: "Intranet",
-        href: "https://novaintranet.alterdata.com.br/",
-      },
-      {
-        text: "BimerUp",
-        href: "http://bimer.alterdata.com.br/",
-      },
-      {
-        text: "Artigos",
-        href: "http://ajuda.alterdata.com.br/",
-      },
+    drawer: false,
+    items: [
+      { title: "Dashboard", icon: "mdi-view-dashboard", route: "/home" },
+      { title: "Cadastros", icon: "mdi-account-box", route: "/cadastros" },
+      { title: "Lançamentos", icon: "mdi-gavel", route: "/lancamentos" },
+      { title: "Configurações", icon: "mdi-cog", route: "/configuracoes" },
     ],
   }),
+  methods: {
+    navigation(where) {
+      this.$router.push(where);
+    },
+    logout() {
+      this.$router.push("/login");
+    },
+  },
 };
 </script>

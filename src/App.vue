@@ -13,10 +13,5 @@ export default {
   data: () => ({
     //
   }),
-  methods: {
-    navigation(where) {
-      this.$router.push({ name: where });
-    },
-  },
 };
 </script>

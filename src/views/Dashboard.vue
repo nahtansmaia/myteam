@@ -6,7 +6,7 @@
 import HomeComponent from "../components/HomeComponent.vue";
 
 export default {
-  name: "Home",
+  name: "Dashboard",
 
   components: {
     HomeComponent,
