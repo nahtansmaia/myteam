@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-card>
     <v-tabs v-model="tab" background-color="transparent" grow>
       <v-tab v-for="item in items" :key="item.title">
         {{ item.title }}
@@ -12,6 +13,7 @@
         </v-card>
       </v-tab-item>
     </v-tabs-items>
+    </v-card>
   </v-container>
 </template>
 
