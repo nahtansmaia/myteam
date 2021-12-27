@@ -39,7 +39,6 @@ export default {
       { title: "Dashboard", icon: "mdi-view-dashboard", route: "/home" },
       { title: "Cadastros", icon: "mdi-account-box", route: "/register" },
       { title: "Lançamentos", icon: "mdi-gavel", route: "/service" },
-      { title: "Configurações", icon: "mdi-cog", route: "/configuration" },
     ],
   }),
   methods: {
