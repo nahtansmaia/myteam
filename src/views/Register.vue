@@ -1,19 +1,19 @@
 <template>
   <v-container>
     <toolbar-component />
-    <home-component />
+    <register-component />
   </v-container>
 </template>
 
 <script>
-import HomeComponent from "../components/HomeComponent.vue";
+import RegisterComponent from "../components/RegisterComponent.vue";
 import ToolbarComponent from "../components/ToolbarComponent.vue";
 
 export default {
-  name: "Dashboard",
+  name: "Register",
 
   components: {
-    HomeComponent,
+    RegisterComponent,
     ToolbarComponent,
   },
 };

@@ -1,19 +1,19 @@
 <template>
   <v-container>
     <toolbar-component />
-    <home-component />
+    <service-component />
   </v-container>
 </template>
 
 <script>
-import HomeComponent from "../components/HomeComponent.vue";
+import ServiceComponent from "../components/ServiceComponent.vue";
 import ToolbarComponent from "../components/ToolbarComponent.vue";
 
 export default {
-  name: "Dashboard",
+  name: "Service",
 
   components: {
-    HomeComponent,
+    ServiceComponent,
     ToolbarComponent,
   },
 };

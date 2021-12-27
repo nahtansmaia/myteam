@@ -19,6 +19,10 @@
 export default {
   name: "SnackBarComponent",
   props: {
+    snackbar: {
+      visible: false,
+      content: "",
+    },
     visible: {
       type: Boolean,
       default: false,
