@@ -67,7 +67,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .access {
   display: flex;
   flex-direction: column;
@@ -86,6 +86,31 @@ export default {
     width: 100%;
     max-width: 400px;
     border-radius: 8px;
+
+    .v-text-field {
+      label {
+        color: var(--light) !important;
+      }
+      input {
+        background-color: transparent !important;
+        color: var(--light) !important;
+      }
+      .v-input__slot::after {
+        border-color: var(--light) !important;
+      }
+      .v-input__slot::before {
+        border-color: var(--light) !important;
+      }
+      .v-label--active label {
+        color: var(--light) !important;
+      }
+      .v-icon {
+        color: var(--light) !important;
+      }
+      .v-input__icon {
+        justify-content: flex-end;
+      }
+    }
   }
 }
 </style>

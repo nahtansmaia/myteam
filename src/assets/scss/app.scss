@@ -86,22 +86,29 @@ span {
 
 .v-text-field {
     label {
-        color: var(--light) !important;
+      color: var(--featured-darker) !important;
     }
     input {
-        background-color: transparent !important;
-        color: var(--light) !important;
+      background-color: transparent;
+      color: var(--featured-lighter) !important;
     }
     .v-input__slot::after {
-        border-color: var(--light) !important;
+      border-color: var(--featured-lighter) !important;
     }
     .v-input__slot::before {
-        border-color: var(--light) !important;
+      border-color: var(--featured-lighter) !important;
     }
     .v-label--active label {
-        color: var(--light) !important;
+      color: var(--featured-lighter) !important;
     }
     .v-icon {
-        color: var(--light) !important;
+      color: var(--featured-lighter) !important;
     }
-}
+  }
+  .v-select__selection {
+    color: var(--featured-darker) !important;
+  }
+  .v-list-item__title {
+    color: var(--featured-darker) !important;
+    border-radius: 8px;
+  }

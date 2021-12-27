@@ -183,34 +183,3 @@ export default {
   }),
 };
 </script>
-
-<style lang="scss">
-.v-text-field {
-  label {
-    color: var(--featured-darker) !important;
-  }
-  input {
-    background-color: transparent !important;
-    color: var(--featured-lighter) !important;
-  }
-  .v-input__slot::after {
-    border-color: var(--featured-lighter) !important;
-  }
-  .v-input__slot::before {
-    border-color: var(--featured-lighter) !important;
-  }
-  .v-label--active label {
-    color: var(--featured-lighter) !important;
-  }
-  .v-icon {
-    color: var(--featured-lighter) !important;
-  }
-}
-.v-select__selection {
-  color: var(--featured-darker) !important;
-}
-.v-list-item__title {
-  color: var(--featured-darker) !important;
-  border-radius: 8px;
-}
-</style>
