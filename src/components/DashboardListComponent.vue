@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import performanceAxios from "../services/performance.js";
 export default {
   name: "DashboardListComponent",
   data: () => ({
@@ -42,110 +43,7 @@ export default {
       { text: "Resolução 1º", value: "firstContactResolution", align: "end" },
       { text: "Encerrado de outros", value: "closedOthers", align: "end" },
     ],
-    desserts: [
-      {
-        id: "",
-        analyst: {
-          id: "",
-          name: "name",
-          email: "analista.sup.shop",
-          team: {
-            id: "",
-            name: "",
-            supervisor: {
-              id: "",
-              name: "",
-              active: false,
-            },
-          },
-        },
-        date: new Date().toLocaleDateString(),
-        quantity: 17,
-        goal: 18,
-        hitGoal: true,
-        closedOthers: 4,
-        supervisor: {
-          id: "",
-          name: "Nome supervisor",
-          active: false,
-        },
-        fiveStars: 15,
-        fourStars: 2,
-        threeStars: 0,
-        twoStars: 0,
-        oneStars: 0,
-        firstContactResolution: 81,
-        ratingPercentage: 93,
-      },
-      {
-        id: "",
-        analyst: {
-          id: "",
-          name: "name2",
-          email: "analista2.sup.shop",
-          team: {
-            id: "",
-            name: "",
-            supervisor: {
-              id: "",
-              name: "",
-              active: false,
-            },
-          },
-        },
-        date: new Date().toLocaleDateString(),
-        quantity: 15,
-        goal: 18,
-        hitGoal: false,
-        closedOthers: 3,
-        supervisor: {
-          id: "",
-          name: "Nome supervisor 2",
-          active: false,
-        },
-        fiveStars: 15,
-        fourStars: 2,
-        threeStars: 0,
-        twoStars: 0,
-        oneStars: 0,
-        firstContactResolution: 81,
-        ratingPercentage: 93,
-      },
-      {
-        id: "",
-        analyst: {
-          id: "",
-          name: "name 3",
-          email: "analista3.sup.shop",
-          team: {
-            id: "",
-            name: "",
-            supervisor: {
-              id: "",
-              name: "",
-              active: false,
-            },
-          },
-        },
-        date: new Date().toLocaleDateString(),
-        quantity: 16,
-        goal: 18,
-        hitGoal: true,
-        closedOthers: 4,
-        supervisor: {
-          id: "",
-          name: "Nome supervisor",
-          active: false,
-        },
-        fiveStars: 15,
-        fourStars: 2,
-        threeStars: 0,
-        twoStars: 0,
-        oneStars: 0,
-        firstContactResolution: 81,
-        ratingPercentage: 93,
-      },
-    ],
+    desserts: [],
     service: {
       id: "",
       analyst: {
@@ -181,5 +79,19 @@ export default {
       ratingPercentage: null,
     },
   }),
+  methods: {
+    getPerformance() {
+      performanceAxios
+        .ListPerformances().then((response) => {
+          this.desserts = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+  created() {
+    this.getPerformance();
+  },
 };
 </script>

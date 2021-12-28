@@ -25,7 +25,7 @@
                 :items="supervisorList"
                 item-text="name"
                 return-object
-                v-model="analyst.supervisor"
+                v-model="analyst.team.supervisor"
                 :rules="[(v) => !!v || 'Supervisor não informado ou inválido.']"
                 label="Supervisor"
                 required
@@ -104,6 +104,10 @@ export default {
   methods: {
     resetForm() {
       this.analyst = Object.assign({}, this.defaultAnalyst);
+      this.snack = {
+        visible: false,
+        text: "Cadastro realizado com sucesso.",
+      };
     },
     submit() {
       this.createTeam();
@@ -111,6 +115,8 @@ export default {
       this.resetForm();
     },
     createAnalyst(analyst) {
+      // analista1234@gmail.com
+
       analystAxios.ListAnalysts().then((response) => {
         response.data.forEach((element) => {
           if (element.name === analyst.name) {
@@ -119,35 +125,36 @@ export default {
             return;
           }
         });
-      })
+      });
+      this.analyst.team = this.team;
+
       analystAxios
         .saveAnalyst(analyst)
         .then(() => {
           this.snack.visible = true;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     createTeam() {
-      this.team = {
-        name: "Equipe de " + this.analyst.supervisor.name,
-        supervisor: this.analyst.supervisor,
-      };
+      this.team.name = "Equipe de " + this.analyst.team.supervisor.name;
+      this.team.supervisor = this.analyst.team.supervisor;
+
       teamAxios.ListTeams().then((response) => {
         response.data.forEach((t) => {
-          if (t.name == "Equipe de " + this.analyst.supervisor.name) {
-            this.analyst.team = t;
+          if (t.name == this.team.name) {
+            this.team = t;
           }
         });
-        if (this.analyst.team.id == "") {
+        if (this.team.id == "") {
           teamAxios
             .saveTeam(this.team)
             .then((response) => {
               this.analyst.team = response.data;
             })
             .catch((error) => {
-              console.log(error);
+              console.error(error);
             });
         }
       });
@@ -159,7 +166,7 @@ export default {
           this.supervisorList = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     loadAllObjects() {

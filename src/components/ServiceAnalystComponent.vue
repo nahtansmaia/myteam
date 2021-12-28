@@ -303,7 +303,7 @@ export default {
           this.supervisors = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     getAnalysts() {
@@ -313,7 +313,7 @@ export default {
           this.analysts = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     createService(service) {
@@ -325,7 +325,7 @@ export default {
           this.snack.visible = true;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     loadAllObjects() {

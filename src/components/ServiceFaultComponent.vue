@@ -161,7 +161,6 @@ export default {
       };
     },
     submit() {
-      console.log(this.audit);
       this.snack.visible = true;
       this.createAudit(this.audit);
       this.resetForm();
@@ -183,7 +182,7 @@ export default {
           this.analysts = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     getFaults() {
@@ -193,7 +192,7 @@ export default {
           this.faults = response.data;
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     },
     loadAllObjects() {
