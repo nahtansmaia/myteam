@@ -6,7 +6,7 @@
           <v-row>
             <v-col cols="12" sm="6">
               <v-text-field
-                :model="user.name"
+                v-model="analyst.name"
                 :rules="[(v) => !!v || 'Nome não informado ou inválido.']"
                 label="Nome"
                 required
@@ -14,7 +14,7 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
-                v-model="user.email"
+                v-model="analyst.email"
                 label="E-mail"
                 :rules="[(v) => !!v || 'E-Mail não informado ou inválido.']"
                 required
@@ -24,7 +24,8 @@
               <v-select
                 :items="supervisorList"
                 item-text="name"
-                item-value="id"
+                return-object
+                v-model="analyst.supervisor"
                 :rules="[(v) => !!v || 'Supervisor não informado ou inválido.']"
                 label="Supervisor"
                 required
@@ -50,6 +51,10 @@
 
 <script>
 import SnackbarComponent from "./SnackbarComponent.vue";
+import supervisorAxios from "../services/supervisor.js";
+import analystAxios from "../services/analyst.js";
+import teamAxios from "../services/team.js";
+
 export default {
   name: "RegisterAnalystComponent",
   components: {
@@ -57,7 +62,7 @@ export default {
   },
   data: () => ({
     formIsValid: false,
-    defaultUser: Object.freeze({
+    defaultAnalyst: Object.freeze({
       id: "",
       name: "",
       email: "",
@@ -71,7 +76,7 @@ export default {
         },
       },
     }),
-    user: {
+    analyst: {
       id: "",
       name: "",
       email: "",
@@ -89,27 +94,80 @@ export default {
       visible: false,
       text: "Cadastro realizado com sucesso.",
     },
-    supervisorList: [
-      {
-        id: "1",
-        name: "castro.sup.shop",
-        active: true,
-      },
-      {
-        id: "2",
-        name: "igorpontes.sup.shop",
-        active: false,
-      },
-    ],
+    team: {
+      id: "",
+      name: "",
+      supervisor: {},
+    },
+    supervisorList: [],
   }),
   methods: {
     resetForm() {
-      this.user = Object.assign({}, this.defaultUser);
+      this.analyst = Object.assign({}, this.defaultAnalyst);
     },
     submit() {
-      this.snack.visible = true;
+      this.createTeam();
+      this.createAnalyst(this.analyst);
       this.resetForm();
     },
+    createAnalyst(analyst) {
+      analystAxios.ListAnalysts().then((response) => {
+        response.data.forEach((element) => {
+          if (element.name === analyst.name) {
+            this.snack.visible = true;
+            this.snack.text = "Já existe um analista cadastrado com este nome.";
+            return;
+          }
+        });
+      })
+      analystAxios
+        .saveAnalyst(analyst)
+        .then(() => {
+          this.snack.visible = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    createTeam() {
+      this.team = {
+        name: "Equipe de " + this.analyst.supervisor.name,
+        supervisor: this.analyst.supervisor,
+      };
+      teamAxios.ListTeams().then((response) => {
+        response.data.forEach((t) => {
+          if (t.name == "Equipe de " + this.analyst.supervisor.name) {
+            this.analyst.team = t;
+          }
+        });
+        if (this.analyst.team.id == "") {
+          teamAxios
+            .saveTeam(this.team)
+            .then((response) => {
+              this.analyst.team = response.data;
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
+      });
+    },
+    getSupervisors() {
+      supervisorAxios
+        .ListSupervisors()
+        .then((response) => {
+          this.supervisorList = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loadAllObjects() {
+      this.getSupervisors();
+    },
+  },
+  created() {
+    this.loadAllObjects();
   },
 };
 </script>

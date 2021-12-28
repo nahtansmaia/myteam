@@ -88,6 +88,8 @@
 
 <script>
 import SnackbarComponent from "./SnackbarComponent.vue";
+import analystAxios from "../services/analyst.js";
+import faultAxios from "../services/fault.js";
 export default {
   name: "ServiceComponent",
   components: {
@@ -143,33 +145,8 @@ export default {
       },
       date: null,
     },
-    analysts: [
-      {
-        id: "1",
-        email: "zé.sup.shop",
-      },
-      {
-        id: "2",
-        email: "maria.sup.shop",
-      },
-    ],
-    faults: [
-      {
-        id: "1",
-        name: "Falta 1",
-        level: "Nível 1",
-      },
-      {
-        id: "2",
-        name: "Falta 2",
-        level: "Nível 2",
-      },
-      {
-        id: "3",
-        name: "Falta 3",
-        level: "Nível 3",
-      },
-    ],
+    analysts: [],
+    faults: [],
     snack: {
       visible: false,
       text: "Cadastro realizado com sucesso.",
@@ -189,6 +166,33 @@ export default {
       this.snack.visible = true;
       this.resetForm();
     },
+    getAnalysts() {
+      analystAxios
+        .ListAnalysts()
+        .then((response) => {
+          this.analysts = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getFaults() {
+      faultAxios
+        .ListFaults()
+        .then((response) => {
+          this.faults = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loadAllObjects() {
+      this.getAnalysts();
+      this.getFaults();
+    },
+  },
+  created() {
+    this.loadAllObjects();
   },
 };
 </script>

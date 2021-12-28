@@ -6,7 +6,7 @@
           <v-row>
             <v-col cols="12" sm="6">
               <v-text-field
-                :model="fault.name"
+                v-model="fault.name"
                 :rules="[(v) => !!v || 'Nome não informado ou inválido.']"
                 label="Nome"
                 required
@@ -19,6 +19,7 @@
                 :items="levelList"
                 item-text="name"
                 item-value="id"
+                v-model="fault.level"
                 :rules="[(v) => !!v || 'Nível não informado ou inválido.']"
                 label="Nível"
                 required
@@ -43,6 +44,7 @@
 
 <script>
 import SnackbarComponent from "./SnackbarComponent.vue";
+import faultAxios from "../services/fault.js";
 export default {
   name: "RegisterFaultComponent",
   components: {
@@ -73,10 +75,33 @@ export default {
   methods: {
     resetForm() {
       this.fault = Object.assign({}, this.defaultFault);
+      this.snack = {
+        visible: false,
+        text: "Cadastro realizado com sucesso.",
+      };
     },
     submit() {
-      this.snack.visible = true;
+      this.saveFault(this.fault);
       this.resetForm();
+    },
+    saveFault(fault) {
+      faultAxios.ListFaults().then((response) => {
+        response.data.forEach((element) => {
+          if (element.name === fault.name) {
+            this.snack.visible = true;
+            this.snack.text = "Já existe uma falta cadastrada com este nome.";
+            return;
+          }
+        });
+      });
+      faultAxios
+        .saveFault(fault)
+        .then(() => {
+          this.snack.visible = true;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
 };

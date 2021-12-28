@@ -8,10 +8,11 @@
               <v-select
                 :items="analysts"
                 item-text="email"
-                item-value="id"
+                return-object
                 :rules="[(v) => !!v || 'Analista não informado ou inválido.']"
                 label="Analista"
                 required
+                v-model="service.analyst"
               ></v-select>
             </v-col>
             <v-col cols="12" sm="4">
@@ -47,11 +48,12 @@
             <v-col cols="12" sm="4">
               <v-select
                 :items="supervisors"
-                item-text="email"
-                item-value="id"
+                item-text="name"
+                return-object
                 :rules="[(v) => !!v || 'Supervisor não informado ou inválido.']"
                 label="Supervisor"
                 required
+                v-model="service.supervisor"
               ></v-select>
             </v-col>
           </v-row>
@@ -76,7 +78,7 @@
             </v-col>
             <v-col cols="12" sm="2">
               <v-text-field
-                v-model="service.goal"
+                v-model="service.closedOthers"
                 label="Encerrado de outros"
                 type="number"
                 :rules="[
@@ -187,6 +189,10 @@
 
 <script>
 import SnackbarComponent from "./SnackbarComponent.vue";
+import supervisorAxios from "../services/supervisor.js";
+import analystAxios from "../services/analyst.js";
+import performanceAxios from "../services/performance.js";
+
 export default {
   name: "ServiceComponent",
   components: {
@@ -197,7 +203,7 @@ export default {
       .toISOString()
       .substr(0, 10),
     menuDate: false,
-    defaultService: {
+    defaultService: Object.freeze({
       id: "",
       analyst: {
         id: "",
@@ -230,7 +236,7 @@ export default {
       oneStars: null,
       firstContactResolution: null,
       ratingPercentage: null,
-    },
+    }),
     service: {
       id: "",
       analyst: {
@@ -265,50 +271,8 @@ export default {
       firstContactResolution: null,
       ratingPercentage: null,
     },
-    fault: {
-      id: "",
-      analyst: {
-        id: "",
-        name: "",
-        email: "",
-        team: {
-          id: "",
-          name: "",
-          supervisor: {
-            id: "",
-            name: "",
-            active: false,
-          },
-        },
-      },
-      code: "",
-      fault: {
-        id: "",
-        name: "",
-        level: "",
-      },
-      date: null,
-    },
-    analysts: [
-      {
-        id: "1",
-        email: "zé.sup.shop",
-      },
-      {
-        id: "2",
-        email: "maria.sup.shop",
-      },
-    ],
-    supervisors: [
-      {
-        id: "1",
-        email: "castro.sup.shop",
-      },
-      {
-        id: "2",
-        email: "igorpontes.sup.shop",
-      },
-    ],
+    analysts: [],
+    supervisors: [],
     snack: {
       visible: false,
       text: "Cadastro realizado com sucesso.",
@@ -323,11 +287,54 @@ export default {
     },
     resetForm() {
       this.service = Object.assign({}, this.defaultService);
+      this.snack = {
+        visible: false,
+        text: "Cadastro realizado com sucesso.",
+      };
     },
     submit() {
-      this.snack.visible = true;
+      this.createService(this.service);
       this.resetForm();
     },
+    getSupervisors() {
+      supervisorAxios
+        .ListSupervisors()
+        .then((response) => {
+          this.supervisors = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    getAnalysts() {
+      analystAxios
+        .ListAnalysts()
+        .then((response) => {
+          this.analysts = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    createService(service) {
+      service.date = this.picker + "T00:00:00";
+      performanceAxios
+        .savePerformance(service)
+        .then((response) => {
+          this.service = response.data;
+          this.snack.visible = true;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    loadAllObjects() {
+      this.getSupervisors();
+      this.getAnalysts();
+    },
+  },
+  created() {
+    this.loadAllObjects();
   },
 };
 </script>
