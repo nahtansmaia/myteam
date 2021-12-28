@@ -1,17 +1,15 @@
 <template>
   <v-container>
     <v-app-bar color="primary" dark dense app>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          :src="require('../assets/icon/dashboard.svg')"
-          transition="scale-transition"
-          width="30"
-        />
-        <h1>My Team</h1>
-      </div>
+      <v-img
+        alt="Vuetify Logo"
+        class="shrink mr-2"
+        contain
+        :src="require('../assets/icon/dashboard.svg')"
+        transition="scale-transition"
+        width="30"
+      />
+      <h1>My Team</h1>
 
       <v-spacer></v-spacer>
 

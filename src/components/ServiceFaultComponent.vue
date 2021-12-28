@@ -8,7 +8,8 @@
               <v-select
                 :items="analysts"
                 item-text="email"
-                item-value="id"
+                return-object
+                v-model="audit.analyst"
                 :rules="[(v) => !!v || 'Analista não informado ou inválido.']"
                 label="Analista"
                 required
@@ -19,7 +20,7 @@
                 ref="menu"
                 v-model="menuDate"
                 :close-on-content-click="false"
-                :return-value.sync="fault.date"
+                :return-value.sync="audit.date"
                 transition="scale-transition"
                 offset-y
                 max-width="290px"
@@ -53,19 +54,17 @@
                 ]"
                 label="Atendimento"
                 required
-                v-model="fault.code"
+                v-model="audit.code"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="4">
               <v-select
-                v-model="fault"
-                :hint="fault.level"
+                v-model="audit.fault"
                 :items="faults"
                 item-text="name"
-                item-value="id"
+                return-object
                 label="Falta"
                 persistent-hint
-                return-object
                 single-line
               ></v-select>
             </v-col>
@@ -90,6 +89,7 @@
 import SnackbarComponent from "./SnackbarComponent.vue";
 import analystAxios from "../services/analyst.js";
 import faultAxios from "../services/fault.js";
+import auditAxios from "../services/audit.js";
 export default {
   name: "ServiceComponent",
   components: {
@@ -100,7 +100,7 @@ export default {
       .toISOString()
       .substr(0, 10),
     menuDate: false,
-    defaultFault: {
+    defaultAudit: {
       id: "",
       name: "",
       level: "",
@@ -121,7 +121,7 @@ export default {
       code: "",
       date: null,
     },
-    fault: {
+    audit: {
       id: "",
       analyst: {
         id: "",
@@ -153,18 +153,28 @@ export default {
     },
   }),
   methods: {
-    formatDate(date) {
-      if (!date) return null;
-
-      const [year, month, day] = date.split("-");
-      return `${day}/${month}/${year}`;
-    },
     resetForm() {
       this.fault = Object.assign({}, this.defaultFault);
+      this.snack = {
+        visible: false,
+        text: "Cadastro realizado com sucesso.",
+      };
     },
     submit() {
+      console.log(this.audit);
       this.snack.visible = true;
+      this.createAudit(this.audit);
       this.resetForm();
+    },
+    createAudit(audit) {
+      audit.date = this.picker + "T00:00:00";
+      auditAxios.saveAudit(audit).then(() => {
+        this.snack.visible = true;
+      }).catch((error) => {
+        this.snack.text = "Erro ao lançar falta.";
+        this.snack.visible = true;
+        console.error(error);
+      });
     },
     getAnalysts() {
       analystAxios

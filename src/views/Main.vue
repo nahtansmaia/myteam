@@ -1,5 +1,7 @@
 <template>
-  <main-component />
+  <v-app>
+    <main-component />
+  </v-app>
 </template>
 
 <script>
