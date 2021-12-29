@@ -133,12 +133,15 @@ export default {
       { title: "Dashboard", icon: "mdi-view-dashboard", route: "/home" },
       { title: "Cadastros", icon: "mdi-account-box", route: "/register" },
       { title: "Lançamentos", icon: "mdi-gavel", route: "/service" },
+      { title: "Meu time", icon: "mdi-account-group", route: "/my-team" },
     ],
     user: {},
   }),
   methods: {
     navigation(where) {
-      this.$router.push(where);
+      if(this.$router.currentRoute.path != where) {
+        this.$router.push(where);
+      }
     },
     logout() {
       localStorage.removeItem("user");

@@ -14,6 +14,10 @@ export default {
         return http.get('analyst/' + id);
     },
 
+    getAnalystWithTeam: (teamId) => {
+        return http.get('analyst/team/' + teamId);
+    },
+
     saveAnalyst: (Analyst) => {
         return http.post('analyst', Analyst);
     },

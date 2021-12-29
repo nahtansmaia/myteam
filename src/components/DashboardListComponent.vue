@@ -22,9 +22,9 @@
         }"
       >
         <template v-slot:no-data>
-          <span>Ops! Não localizamos nenhum cadastro.</span>
+          <span>Ops! Não localizamos nenhum registro.</span>
           <v-spacer />
-          <v-btn small @click="loadSector"> Recarregar </v-btn>
+          <v-btn class="btnPrincipal" small @click="getPerformance"> Recarregar </v-btn>
         </template>
       </v-data-table>
     </v-card>
