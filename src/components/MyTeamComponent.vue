@@ -102,7 +102,7 @@ export default {
         value: "name",
       },
       { text: "Email", value: "email" },
-      { text: "Actions", value: "actions", sortable: false, align: "end" },
+      { text: "Detalhe", value: "actions", sortable: false, align: "end" },
     ],
     headersPerformance: [
       {
