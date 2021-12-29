@@ -59,6 +59,7 @@ span {
         color: var(--featured-darker) !important;
     }
 }
+
 .v-btn.btnPrincipal {
     border-color: var(--featured-darker) !important;
     background-color: var(--featured-darker) !important;
@@ -73,6 +74,7 @@ span {
         border-radius: 8px;
     }
 }
+
 .btnLink {
     background-color: transparent !important;
     border-radius: 8px !important;
@@ -86,29 +88,66 @@ span {
 
 .v-text-field {
     label {
-      color: var(--featured-darker) !important;
+        color: var(--featured-darker) !important;
     }
     input {
-      background-color: transparent;
-      color: var(--featured-lighter) !important;
+        background-color: transparent;
+        color: var(--featured-lighter) !important;
     }
     .v-input__slot::after {
-      border-color: var(--featured-lighter) !important;
+        border-color: var(--featured-lighter) !important;
     }
     .v-input__slot::before {
-      border-color: var(--featured-lighter) !important;
+        border-color: var(--featured-lighter) !important;
     }
     .v-label--active label {
-      color: var(--featured-lighter) !important;
+        color: var(--featured-lighter) !important;
     }
     .v-icon {
-      color: var(--featured-lighter) !important;
+        color: var(--featured-lighter) !important;
     }
-  }
-  .v-select__selection {
+}
+
+.v-select__selection {
     color: var(--featured-darker) !important;
-  }
-  .v-list-item__title {
+}
+
+.v-list-item__title {
     color: var(--featured-darker) !important;
     border-radius: 8px;
-  }
+}
+
+hr {
+    background-color: var(--featured-lighter) !important;
+}
+
+.v-list-item__subtitle {
+    font-size: 0.6rem !important;
+}
+
+.v-avatar {
+    background-color: var(--featured-darker) !important;
+}
+
+.expansion {
+    display: contents !important;
+
+    .v-expansion-panel-content__wrap {
+        display: contents !important;
+        cursor: pointer !important;
+        span {
+            padding-left: 30px;
+        }
+    }
+}
+
+.account {
+    padding: 10px;
+
+    .v-card__subtitle {
+        font-size: 0.6rem !important;
+    }
+    input {
+        font-size: 0.9rem !important;
+    }
+}

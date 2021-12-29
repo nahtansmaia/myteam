@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card>
+    <v-card flat>
       <v-card-title>
         <v-text-field
           v-model="search"
@@ -20,7 +20,13 @@
           'items-per-page-all-text': 'Todos',
           'items-per-page-options': [15, 30, 50, -1],
         }"
-      ></v-data-table>
+      >
+        <template v-slot:no-data>
+          <span>Ops! Não localizamos nenhum cadastro.</span>
+          <v-spacer />
+          <v-btn small @click="loadSector"> Recarregar </v-btn>
+        </template>
+      </v-data-table>
     </v-card>
   </v-container>
 </template>
@@ -82,7 +88,8 @@ export default {
   methods: {
     getPerformance() {
       performanceAxios
-        .ListPerformances().then((response) => {
+        .ListPerformances()
+        .then((response) => {
           this.desserts = response.data;
         })
         .catch((error) => {

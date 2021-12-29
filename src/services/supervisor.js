@@ -10,6 +10,10 @@ export default {
         return http.get('supervisor/' + name);
     },
 
+    getSupervisorWithEmailAndPassword: (email, password) => {
+        return http.get(`supervisor/login?`, { params: {email, password}});
+    },
+
     getSupervisorWithId: (id) => {
         return http.get('supervisor/' + id);
     },

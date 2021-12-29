@@ -4,27 +4,27 @@
     <div>
       <v-form class="form" ref="form" v-model="valid" lazy-validation>
         <v-text-field
-          v-model="email"
+          v-model="supervisor.email"
           :rules="[(v) => !!v || 'E-mail é obrigatório']"
           label="E-mail"
           type="email"
-          color="white"
           autofocus
         ></v-text-field>
         <v-text-field
-          v-model="password"
+          v-model="supervisor.password"
           :rules="[(v) => !!v || 'Senha é obrigatória']"
           :type="showPassword ? 'text' : 'password'"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append="showPassword = !showPassword"
           label="Senha"
-          color="white"
         ></v-text-field>
-        <v-btn class="btnPrincipal" block @click="login()" :disabled="!valid">
+        <v-btn
+          class="btnPrincipal"
+          block
+          @click="getSupervisorWithLogin(supervisor)"
+          :disabled="!valid"
+        >
           Entrar
-        </v-btn>
-        <v-btn block @click="login()">
-          Entrar com Google<v-icon>mdi-google</v-icon>
         </v-btn>
       </v-form>
     </div>
@@ -38,6 +38,8 @@
 
 <script>
 import SnackBarComponent from "../components/SnackbarComponent.vue";
+import supervisorAxios from "../services/supervisor.js";
+import sha256 from "crypto-js/sha256";
 
 export default {
   name: "LoginAccessComponent",
@@ -47,21 +49,36 @@ export default {
 
   data: () => ({
     showPassword: false,
-    email: "",
-    password: "",
     valid: false,
     snack: {
       visible: false,
       text: "E-mail ou senha inválidos",
     },
+    supervisor: {
+      email: "",
+      password: "",
+    },
   }),
   methods: {
-    login() {
-      if (this.email === "123" && this.password === "123") {
-        this.$router.push("/home");
-      } else {
-        this.snack.visible = true;
-      }
+    getSupervisorWithLogin(supervisor) {
+      const senha = supervisor.password;
+      const myhash = sha256(senha);
+
+      supervisorAxios
+        .getSupervisorWithEmailAndPassword(
+          supervisor.email,
+          myhash.toString().toUpperCase()
+        )
+        .then((response) => {
+          this.supervisor = response.data;
+          this.supervisor.initial = this.supervisor.name.charAt(0).toUpperCase();
+          localStorage.setItem("user", JSON.stringify(this.supervisor));
+          this.$router.push("/home");
+        })
+        .catch((error) => {
+          console.log(error);
+          this.snack.visible = true;
+        });
     },
   },
 };
